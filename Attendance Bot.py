@@ -4,6 +4,8 @@ import psutil
 import requests
 import time
 
+
+bootdown = false
 #bootup tracker set to true
 bootup = True
 
