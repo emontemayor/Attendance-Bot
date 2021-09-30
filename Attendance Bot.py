@@ -26,28 +26,28 @@ class Student:
 
 #Student list, populated by Student objects. Students names obtained from class roster.
 studentList = []
-studentList.append(Student('Buster Honeywood',  0, False))
-studentList.append(Student('William Robert',    1, False))
-studentList.append(Student('Phoenix Johnson',   2, False))
-studentList.append(Student('Abigail Russell',   3, False))
-studentList.append(Student('Cole Jones',        4, False))
-studentList.append(Student('William Burgaard',  5, False))
-studentList.append(Student('Anthony Cox',       6, False))
-studentList.append(Student('Brendon Walker',    7, False))
-studentList.append(Student('Ashtyn Arnold',     8, False))
-studentList.append(Student('Michael Cook',      9, False))
-studentList.append(Student('Jessica Spargen',   10, False))
-studentList.append(Student('Kaleb Wooten',      11, False))
-studentList.append(Student('Robert Garcia',     12, False))
-studentList.append(Student('Megan Harty',       13, False))
-studentList.append(Student('Gracie George',     14, False))
-studentList.append(Student('Austin Shever',     15, False))
-studentList.append(Student('Kyle Koeller',      16, False))
-studentList.append(Student('NIcholas McCormick',17, False))
-studentList.append(Student('Russel McDaniel',   18, False))
-studentList.append(Student('Jacob Frazier',     19, False))
-studentList.append(Student('Cole Wagner',       20, False))
-studentList.append(Student('Aaron Newton',      21, False))
+studentList.append(Student('Buster Honeywood',  21302672, False))
+studentList.append(Student('William Robert',    21287845, False))
+studentList.append(Student('Phoenix Johnson',   21254386, False))
+studentList.append(Student('Abigail Russell',   21330636, False))
+studentList.append(Student('Cole Jones',        21336643, False))
+studentList.append(Student('William Burgaard',  21342116, False))
+studentList.append(Student('Anthony Cox',       21302678, False))
+studentList.append(Student('Brendon Walker',    21335268, False))
+studentList.append(Student('Ashtyn Arnold',     21296684, False))
+studentList.append(Student('Michael Cook',      21254473, False))
+studentList.append(Student('Jessica Spargen',   21313025, False))
+studentList.append(Student('Kaleb Wooten',      21297562, False))
+studentList.append(Student('Robert Garcia',     21309082, False))
+studentList.append(Student('Megan Harty',       21316258, False))
+studentList.append(Student('Gracie George',     21310095, False))
+studentList.append(Student('Austin Shever',     21308535, False))
+studentList.append(Student('Kyle Koeller',      21167052, False))
+studentList.append(Student('NIcholas McCormick',21232246, False))
+studentList.append(Student('Russel McDaniel',   21263611, False))
+studentList.append(Student('Jacob Frazier',     21179663, False))
+studentList.append(Student('Cole Wagner',       21156391, False))
+studentList.append(Student('Aaron Newton',      21174553, False))
 studentList.append(Student('Emil Montemayor',      22, False))
 studentList.append(Student('Dr. Jason "Bossman" Ferguson',      23, False))
 
@@ -84,8 +84,8 @@ if(bootup):
 
 #Continue while loop until all students have registered
 while(studentCount != 0):     
-    num = int(QrReader.readQR())                                  #temporary input for ID
-    for obj in studentList:                              #for loop to run through all student objects in studentList
+    num = int(QrReader.readQR())                                 #turn on camera and obtain QR code data
+    for obj in studentList:                                      #for loop to run through all student objects in studentList
         if num == obj.idNumber and obj.checked == False:         #If ID input matches student ID, and student hasn't checked in, prepare student name for new packet
             data_to_send["name"] = obj.name
             obj.checked = True
