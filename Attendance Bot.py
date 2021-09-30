@@ -5,9 +5,11 @@ import requests
 import time
 
 
-bootdown = false
+ootdown = True
+#testytestststss
 #bootup tracker set to true
-bootup = True
+bootup = False
+test = 2323
 
 #Student class, used to create student objects.
 #  name: student name
@@ -46,6 +48,8 @@ studentList.append(Student('Russel McDaniel',   18, False))
 studentList.append(Student('Jacob Frazier',     19, False))
 studentList.append(Student('Cole Wagner',       20, False))
 studentList.append(Student('Aaron Newton',      21, False))
+studentList.append(Student('Emil Montemayor',      22, False))
+studentList.append(Student('Dr. Jason "Bossman" Ferguson',      23, False))
 
 #studentCount to track total number of students.
 studentCount = len(studentList)
