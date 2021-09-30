@@ -45,6 +45,8 @@ def readQR():
             # on our output image we need to convert it to a string first
             barcodeData = barcode.data.decode("utf-8")
             barcodeType = barcode.type
+            return barcodeData
+
             
             # draw the barcode data and barcode type on the image
             text = "{} ({})".format(barcodeData, barcodeType)

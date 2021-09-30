@@ -7,6 +7,10 @@ from datetime import date
 import psutil
 import requests
 import time
+from gpiozero import Buzzer
+
+#init buzzer
+buzzer = Buzzer(16)
 
 #bootup tracker set to true
 bootup = True
@@ -87,6 +91,12 @@ while(studentCount != 0):
     num = int(QrReader.readQR())                                 #turn on camera and obtain QR code data
     for obj in studentList:                                      #for loop to run through all student objects in studentList
         if num == obj.idNumber and obj.checked == False:         #If ID input matches student ID, and student hasn't checked in, prepare student name for new packet
+            
+            buzzer.on() #bzz
+            time.sleep(.2)
+            buzzer.off()
+            time.sleep(.2)
+            
             data_to_send["name"] = obj.name
             obj.checked = True
             
@@ -103,7 +113,19 @@ while(studentCount != 0):
 
         elif num == obj.idNumber and obj.checked == True:        #if student has already checked in, throw message
             print('Student checked already')
-
+            buzzer.on() #bzz
+            time.sleep(.1)
+            buzzer.off()
+            time.sleep(.1)
+            buzzer.on() #bzz
+            time.sleep(.1)
+            buzzer.off()
+            time.sleep(.1)
+            buzzer.on() #bzz
+            time.sleep(.1)
+            buzzer.off()
+            time.sleep(.1)
+            time.sleep(2)
 
 
     
