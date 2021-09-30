@@ -1,15 +1,15 @@
+#!/home/pi/Attendance-Bot
+
+#Import QR Reader support
+import QrReader
 import datetime
 from datetime import date
 import psutil
 import requests
 import time
 
-
-ootdown = True
-#testytestststss
 #bootup tracker set to true
-bootup = False
-test = 2323
+bootup = True
 
 #Student class, used to create student objects.
 #  name: student name
@@ -84,7 +84,7 @@ if(bootup):
 
 #Continue while loop until all students have registered
 while(studentCount != 0):     
-    num = int(input())                                   #temporary input for ID
+    num = int(QrReader.readQR())                                  #temporary input for ID
     for obj in studentList:                              #for loop to run through all student objects in studentList
         if num == obj.idNumber and obj.checked == False:         #If ID input matches student ID, and student hasn't checked in, prepare student name for new packet
             data_to_send["name"] = obj.name
