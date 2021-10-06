@@ -2,12 +2,32 @@
 
 #Import QR Reader support
 import QrReader
+from awsUpload import updateAWS
 import datetime
 from datetime import date
 import psutil
 import requests
 import time
 from gpiozero import Buzzer
+import json
+
+def writeToJSONFile(path, fileName, data):
+    filePathNameWExt = './' + path + '/' + fileName + '.json'
+    with open(filePathNameWExt, 'w') as fp:
+        json.dump(data, fp)
+
+# function to add to JSON
+def write_json(new_data, filename='file-name.json'):
+    with open(filename,'r+') as file:
+        # First we load existing data into a dict.
+        file_data = json.load(file)
+        # Join new_data with file_data inside emp_details
+        file_data["students"].append(new_data)
+        # Sets file's current position at offset.
+        file.seek(0)
+        # convert back to json.
+        json.dump(file_data, file, indent = 4)
+
 
 #init buzzer
 buzzer = Buzzer(16)
@@ -70,6 +90,17 @@ if(bootup):
     data_to_send["name"] = "nuller"          #name of student
     data_to_send["spreadID"] = "nuller"      #spreadsheet ID generated during boot up.
     
+    data_for_json = {}
+    data_for_json['students'] = []
+    data_for_json['students'].append({
+        'name': '',
+        'time': '',
+        })
+    
+    writeToJSONFile('./','file-name',data_for_json) #create json for MagicMirror
+    updateAWS()
+    
+    
     #send initialization packet to Integromat
     r = requests.post("https://hook.integromat.com/g8ddyjvyl69lmivkkcoglwwkll8a1o5h", json = data_to_send)
     #webhooks will create a google sheet.
@@ -100,11 +131,18 @@ while(studentCount != 0):
             data_to_send["name"] = obj.name
             obj.checked = True
             
-            data_to_send["time"] = str(datetime.datetime.now())  #get time of registration
+            data_to_send["time"] = str(datetime.datetime.now().strftime("%H:%M:%S"))  #get time of registration
             data_to_send["bootup"] = "False"                     #let integromat know this is not boot up
             
             studentCount = studentCount - 1                      #lower student count for while loop tracking
             
+            data_for_json = {
+                'name': obj.name,
+                'time': str(datetime.datetime.now().strftime("%H:%M:%S"))
+                }
+            write_json(data_for_json)
+            updateAWS()
+                
             print(data_to_send)
             
             #send data packet. Webhooks will add new row to create spreadsheet with student name and time registered.
