@@ -119,6 +119,7 @@ if(bootup):
 
 #Continue while loop until all students have registered
 while(studentCount != 0):     
+    print('Awaiting QR code...')
     num = int(QrReader.readQR())                                 #turn on camera and obtain QR code data
     for obj in studentList:                                      #for loop to run through all student objects in studentList
         if num == obj.idNumber and obj.checked == False:         #If ID input matches student ID, and student hasn't checked in, prepare student name for new packet
