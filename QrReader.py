@@ -8,6 +8,10 @@ import time
 import cv2
 
 
+exitTime = ('12:30')
+exitCode=999
+
+
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
@@ -17,6 +21,9 @@ time.sleep(2.0)
 def readQR():
     # loop over the frames from the video stream
     while True:
+        checktime = str(datetime.datetime.now().strftime("%H:%M")) 
+        if(checktime == exitTime):
+            return exitCode
         # grab the frame from the threaded video stream and resize it to
         # have a maximum width of 400 pixels
         frame = vs.read()

@@ -9,7 +9,44 @@ import psutil
 import requests
 import time
 from gpiozero import Buzzer
+from gpiozero import LED
 import json
+import atexit
+import sys
+
+exitCode = 999
+
+def exit_handler():
+    print ('bye bye!')
+    green.off()
+    red.off()
+    yellow.off()
+    time.sleep(.1)
+    green.on()
+    red.on()
+    yellow.on()
+    time.sleep(.1)
+    green.off()
+    red.off()
+    yellow.off()
+    time.sleep(.1)
+    green.on()
+    red.on()
+    yellow.on()
+    time.sleep(.1)
+    buzzer.on() #bzz
+    time.sleep(.5)
+    buzzer.off()
+    time.sleep(.5)
+    buzzer.on() #bzz
+    time.sleep(.5)
+    buzzer.off()
+    time.sleep(5)
+    green.off()
+    red.off()
+    yellow.off()
+    
+atexit.register(exit_handler)
 
 def writeToJSONFile(path, fileName, data):
     filePathNameWExt = './' + path + '/' + fileName + '.json'
@@ -31,6 +68,11 @@ def write_json(new_data, filename='file-name.json'):
 
 #init buzzer
 buzzer = Buzzer(16)
+
+#init LEDs
+red = LED(22)
+yellow = LED(27)
+green = LED(17)
 
 #bootup tracker set to true
 bootup = True
@@ -83,6 +125,7 @@ spreadSheetID = 0
 
 #If this is the first run since bootup, initialize data packet for Webhooks
 if(bootup):
+    yellow.on()
     data_to_send = {}                        #data packet container 
     data_to_send["date"] = str(date.today()) #date 
     data_to_send["bootup"] = "True"          #bootup tracker
@@ -116,14 +159,30 @@ if(bootup):
 
     bootup = False                           #flip bootup tracker
 
+buzzer.on() #bzz
+time.sleep(.05)
+buzzer.off()
+time.sleep(.05)
+buzzer.on() #bzz
+time.sleep(.05)
+buzzer.off()
+time.sleep(.05)
 
 #Continue while loop until all students have registered
-while(studentCount != 0):     
+while(studentCount != 0):
+    red.off()
+    yellow.off()
+    green.on()
+    
     print('Awaiting QR code...')
-    num = int(QrReader.readQR())                                 #turn on camera and obtain QR code data
+    num = int(QrReader.readQR())
+    if num == exitCode:
+        sys.exit()
+    #turn on camera and obtain QR code data
     for obj in studentList:                                      #for loop to run through all student objects in studentList
         if num == obj.idNumber and obj.checked == False:         #If ID input matches student ID, and student hasn't checked in, prepare student name for new packet
-            
+            yellow.on()
+            green.off()
             buzzer.on() #bzz
             time.sleep(.2)
             buzzer.off()
@@ -152,6 +211,9 @@ while(studentCount != 0):
 
         elif num == obj.idNumber and obj.checked == True:        #if student has already checked in, throw message
             print('Student checked already')
+            green.off()
+            yellow.off()
+            red.blink()
             buzzer.on() #bzz
             time.sleep(.1)
             buzzer.off()
@@ -166,5 +228,3 @@ while(studentCount != 0):
             time.sleep(.1)
             time.sleep(2)
 
-
-    

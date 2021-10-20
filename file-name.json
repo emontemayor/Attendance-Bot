@@ -1,12 +1,1 @@
-{
-    "students": [
-        {
-            "name": "",
-            "time": ""
-        },
-        {
-            "name": "William Burgaard",
-            "time": "17:30:09"
-        }
-    ]
-}
+{"students": [{"name": "", "time": ""}]}
